@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions - EST Fes Genie Informatique</title>
+    <meta name="description" content="Posez vos questions sur le génie informatique à EST Fes. Notre plateforme interactive vous permet d'obtenir des réponses rapides et précises.">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="questions-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div href="#">EST<span>Fes</span></div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="#questions" class="active"><i class="fas fa-question-circle"></i> Questions</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="questions-header">
+        <div class="header-content">
+            <h1>Ask Your Questions</h1>
+            <p>Get answers from our community of students and professors</p>
+        </div>
+    </header>
+
+    <main class="questions-section" id="questions">
+        <div class="questions-container">
+            <div class="question-box">
+                <div class="question-header">
+                    <h2>What's on your mind?</h2>
+                    <p>Your question will be shared with our community</p>
+                </div>
+                <div class="question-form">
+                    <div class="form-group">
+                        <textarea 
+                            id="question-input" 
+                            placeholder="Type your question here..."
+                            rows="5"></textarea>
+                        <div class="char-count">0/500</div>
+                    </div>
+                    <div class="form-controls">
+                        <button class="clear-btn" type="button">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button class="submit-btn" type="button">
+                            <i class="fas fa-paper-plane"></i> Submit Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>By Oussama<span>Irhil</span></h3>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const questionInput = document.getElementById('question-input');
+            const charCount = document.querySelector('.char-count');
+            const submitBtn = document.querySelector('.submit-btn');
+            const clearBtn = document.querySelector('.clear-btn');
+            const maxLength = 500;
+
+            // Update character count
+            questionInput.addEventListener('input', function() {
+                const length = this.value.length;
+                charCount.textContent = `${length}/${maxLength}`;
+                
+                if (length > maxLength) {
+                    this.value = this.value.substring(0, maxLength);
+                    charCount.textContent = `${maxLength}/${maxLength}`;
+                }
+
+                // Enable/disable submit button
+                submitBtn.disabled = length === 0;
+                submitBtn.classList.toggle('disabled', length === 0);
+            });
+
+            // Clear button functionality
+            clearBtn.addEventListener('click', function() {
+                questionInput.value = '';
+                charCount.textContent = `0/${maxLength}`;
+                submitBtn.disabled = true;
+                submitBtn.classList.add('disabled');
+            });
+
+            // Submit button functionality
+            submitBtn.addEventListener('click', function() {
+                if (questionInput.value.trim()) {
+                    // Add animation class
+                    const questionBox = document.querySelector('.question-box');
+                    questionBox.classList.add('submitted');
+
+                    // Show success message
+                    setTimeout(() => {
+                        questionInput.value = '';
+                        charCount.textContent = `0/${maxLength}`;
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('disabled');
+                        questionBox.classList.remove('submitted');
+                        
+                        // Show success notification
+                        showNotification('Question submitted successfully!');
+                    }, 1000);
+                }
+            });
+
+            // Notification function
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    <span>${message}</span>
+                `;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 100);
+
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

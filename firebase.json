@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": ".",
+    "site": "est-fes-genie-informatique",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
